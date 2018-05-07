@@ -14,6 +14,19 @@ class PetsController < ApplicationController
   end
 
   def create
+    pet = Pet.new(pets_params)
+
+    if pet.save
+      render json: {id: pet.id}, status: :ok
+    else
+      render json: {ok: false, errors: "Pet cannot be created"}, status: :bad_request
+    end
+  end
+
+  private
+
+  def pets_params
+    return params.require(:pet).permit(:name, :age, :human)
   end
 
 end

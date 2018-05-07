@@ -64,20 +64,37 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
       }
     }
 
-    # it "Creates a new pet" do
-    #   assert_difference "Pet.count", 1 do
-    #     post pets_url, params: { pet: pet_data }
-    #     assert_response :success
-    #   end
-    #
-    #   body = JSON.parse(response.body)
-    #   body.must_be_kind_of Hash
-    #   body.must_include "id"
-    #
-    #   # Check that the ID matches
-    #   Pet.find(body["id"]).name.must_equal pet_data[:name]
-    # end
-    #
+    it "Creates a new pet" do
+
+      proc {
+        post pets_path, params: {pet: pet_data}
+      }.must_change 'Pet.count', 1
+
+      must_respond_with :success
+
+      # assert_difference "Pet.count", 1 do
+      #   post pets_url, params: { pet: pet_data }
+      #   assert_response :success
+      # end
+      #
+      # body = JSON.parse(response.body)
+      # body.must_be_kind_of Hash
+      # body.must_include "id"
+      #
+      # # Check that the ID matches
+      # Pet.find(body["id"]).name.must_equal pet_data[:name]
+    end
+
+    it "returns bad request for bad params data" do
+      pet_data[:name] = nil
+
+      proc {
+        post pets_path, params: {pet: pet_data}
+      }.must_change 'Pet.count', 0
+
+      must_respond_with :bad_request
+    end
+    
     # it "Returns an error for an invalid pet" do
     #   bad_data = pet_data.clone()
     #   bad_data.delete(:name)
