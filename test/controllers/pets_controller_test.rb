@@ -38,13 +38,13 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  describe "show" do
-    # This bit is up to you!
-    it "can get a pet" do
-      get pet_path(pets(:two).id)
-      must_respond_with :success
-    end
-  end
+  # describe "show" do
+  #   # This bit is up to you!
+  #   it "can get a pet" do
+  #     get pet_path(pets(:two).id)
+  #     must_respond_with :success
+  #   end
+  # end
 
   describe "create" do
     let(:pet_data) {
