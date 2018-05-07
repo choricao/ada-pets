@@ -15,11 +15,13 @@ class PetsController < ApplicationController
 
   def create
     pet = Pet.new(pets_params)
+    # pet = Pet.create(pets_params)
 
     if pet.save
+    # if pet.valid?
       render json: {id: pet.id}, status: :ok
     else
-      render json: {ok: false, errors: "Pet cannot be created"}, status: :bad_request
+      render json: {ok: false, errors: pet.errors}, status: :bad_request
     end
   end
 

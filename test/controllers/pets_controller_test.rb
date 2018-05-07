@@ -90,11 +90,17 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
 
       proc {
         post pets_path, params: {pet: pet_data}
-      }.must_change 'Pet.count', 0
+      }.wont_change 'Pet.count'
 
       must_respond_with :bad_request
+      body = JSON.parse(response.body)
+      body.must_be_kind_of Hash
+      body.must_include "ok"
+      body["ok"].must_equal false
+      body.must_include "errors"
+      body["errors"].must_include "name"
     end
-    
+
     # it "Returns an error for an invalid pet" do
     #   bad_data = pet_data.clone()
     #   bad_data.delete(:name)
