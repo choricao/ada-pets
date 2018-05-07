@@ -38,13 +38,22 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  # describe "show" do
-  #   # This bit is up to you!
-  #   it "can get a pet" do
-  #     get pet_path(pets(:two).id)
-  #     must_respond_with :success
-  #   end
-  # end
+  describe "show" do
+    # This bit is up to you!
+    it "can get a pet" do
+      get pet_path(pets(:two).id)
+      must_respond_with :success
+    end
+
+    it "returns a 404 for pets that are not found" do
+      pet = pets(:two)
+      pet.destroy
+
+      get pet_path(pet.id)
+
+      must_respond_with :not_found
+    end
+  end
 
   describe "create" do
     let(:pet_data) {
